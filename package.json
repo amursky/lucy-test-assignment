@@ -1,6 +1,6 @@
 {
-  "name": "@lucy/root",
   "private": true,
+  "name": "@lucy/root",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start",

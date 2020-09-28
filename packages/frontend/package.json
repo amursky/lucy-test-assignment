@@ -9,9 +9,14 @@
     "build": "next build"
   },
   "dependencies": {
+    "@lucy/interfaces": "^1.0.0",
+    "csx": "^10.0.1",
+    "effector": "^21.3.0",
+    "effector-react": "^21.0.6",
     "next": "9.5.3",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "typestyle": "^2.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.11.2",
