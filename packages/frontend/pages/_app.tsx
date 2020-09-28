@@ -2,7 +2,8 @@ import { AppProps } from "next/app";
 import { Fragment, useEffect } from "react";
 import Head from "next/head";
 
-import { loadFonts } from "../styles/global.styles";
+import "../styles/fonts.css";
+import { loadFonts } from "../styles/fonts";
 
 export default function Application({ Component, pageProps }: AppProps) {
   useEffect(() => {

@@ -5,12 +5,9 @@ import Link from "next/link";
 
 const HomePage: NextPage = () => (
   <Fragment>
-    <main>
-      <h1>Welcome to Next.js!</h1>
-      <Link href={PRODUCTS_PAGE_ROUTE}>
-        <a>Products</a>
-      </Link>
-    </main>
+    <Link href={PRODUCTS_PAGE_ROUTE}>
+      <a>Products</a>
+    </Link>
   </Fragment>
 );
 

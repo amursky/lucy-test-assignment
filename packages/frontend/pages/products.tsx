@@ -1,14 +1,26 @@
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { Container, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import { NextPage } from "next";
 import { Pagination } from "@material-ui/lab";
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
+import VisuallyHidden from "@reach/visually-hidden";
 
 import { IListResponse, IProduct } from "@lucy/interfaces";
+import { ProductList } from "../components";
 import { ProductService } from "../services";
 
-export type ProductListPageQuery = {
-  page: string;
-};
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      padding: theme.spacing(4, 0),
+    },
+    pagination: {
+      display: "flex",
+      justifyContent: "center",
+      margin: theme.spacing(4, "auto", 0),
+    },
+  }),
+);
 
 const ProductListPage: NextPage = () => {
   /**
@@ -33,7 +45,7 @@ const ProductListPage: NextPage = () => {
     else setPage(pageNumber);
   }, [router.query.page]);
 
-  // Validate `page` property of the query
+  // Validate page number
   useEffect(() => {
     if (response === null) return;
     if (page > response.pageCount) {
@@ -41,7 +53,7 @@ const ProductListPage: NextPage = () => {
     }
   }, [page, response]);
 
-  // Fetch product list
+  // Fetch product list on page number change
   useEffect(() => {
     setLoading(true);
     new ProductService()
@@ -54,38 +66,40 @@ const ProductListPage: NextPage = () => {
    * Event Handlers
    */
 
-  const handleChangePage = useCallback((_, value: number) => setPage(value), []);
+  const handleChangePage = useCallback(
+    (event: ChangeEvent<unknown>, value: number) => {
+      router.push(`/products?page=${value}`);
+    },
+    [router],
+  );
 
   /**
    * Render
    */
 
+  const styles = useStyles();
+
+  const products = useMemo<IProduct[]>(() => {
+    return response ? response.data : [];
+  }, [response?.data]);
+
   const pageCount = useMemo<number>(() => {
     return response ? response.pageCount : 1;
   }, [response?.pageCount]);
 
-  const renderedProducts = useMemo(() => {
-    if (loading) return <p>Loading...</p>;
-    if (!response?.data) return null;
-
-    return (
-      <ul>
-        {response.data.map(product => (
-          <li key={product.id}>
-            <h3>{product.name}</h3>
-            <p>{product.price}</p>
-          </li>
-        ))}
-      </ul>
-    );
-  }, [loading, response]);
-
   return (
-    <main>
-      <h1>Products</h1>
-      {renderedProducts}
-      <Pagination page={page} count={pageCount} onChange={handleChangePage} />
-    </main>
+    <Container className={styles.container}>
+      <VisuallyHidden>
+        <h1>Products</h1>
+      </VisuallyHidden>
+      <ProductList loading={loading} products={products} />
+      <Pagination
+        className={styles.pagination}
+        count={pageCount}
+        onChange={handleChangePage}
+        page={page}
+      />
+    </Container>
   );
 };
 
