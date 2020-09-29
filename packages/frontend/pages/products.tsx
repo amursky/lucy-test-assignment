@@ -11,13 +11,10 @@ import { ProductService } from "../services";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {
-      padding: theme.spacing(4, 0),
-    },
     pagination: {
       display: "flex",
       justifyContent: "center",
-      margin: theme.spacing(4, "auto", 0),
+      margin: theme.spacing(0, "auto", 4),
     },
   }),
 );
@@ -88,7 +85,7 @@ const ProductListPage: NextPage = () => {
   }, [response?.pageCount]);
 
   return (
-    <Container className={styles.container}>
+    <Container>
       <VisuallyHidden>
         <h1>Products</h1>
       </VisuallyHidden>

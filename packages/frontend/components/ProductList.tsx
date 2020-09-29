@@ -7,7 +7,9 @@ import { Loading } from "./Loading";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    grid: {},
+    grid: {
+      padding: theme.spacing(4, 0),
+    },
   }),
 );
 

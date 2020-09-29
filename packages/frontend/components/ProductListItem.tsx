@@ -1,18 +1,26 @@
 import { FC, memo } from "react";
-import { createStyles, Grid, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
+
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  createStyles,
+  Grid,
+  makeStyles,
+  Theme,
+  Typography,
+} from "@material-ui/core";
 
 import { IProduct } from "@lucy/interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    paper: {
+    card: {
       height: "100%",
     },
-    image: {
-      width: "100%",
-    },
-    content: {
-      padding: theme.spacing(2, 3),
+    cardMedia: {
+      height: 655,
     },
   }),
 );
@@ -26,12 +34,16 @@ export const ProductListItem: FC<ProductListItemProps> = memo(({ product }) => {
 
   return (
     <Grid item xs={4}>
-      <Paper className={styles.paper}>
-        <img className={styles.image} src={product.image} alt={product.name} />
-        <div className={styles.content}>
-          <Typography variant="h5">{product.name}</Typography>
-        </div>
-      </Paper>
+      <Card className={styles.card}>
+        <CardActionArea>
+          <CardMedia className={styles.cardMedia} image={product.image} title={product.name} />
+          <CardContent>
+            <Typography variant="h5" component="h3">
+              {product.name}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     </Grid>
   );
 });
