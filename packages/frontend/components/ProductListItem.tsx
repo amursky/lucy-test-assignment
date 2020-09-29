@@ -36,7 +36,12 @@ export const ProductListItem: FC<ProductListItemProps> = memo(({ product }) => {
     <Grid item xs={4}>
       <Card className={styles.card}>
         <CardActionArea>
-          <CardMedia className={styles.cardMedia} image={product.image} title={product.name} />
+          <CardMedia
+            alt={product.name}
+            className={styles.cardMedia}
+            component="img"
+            image={product.image}
+          />
           <CardContent>
             <Typography variant="body1" component="p">
               {product.name}
