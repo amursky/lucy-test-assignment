@@ -1,23 +1,12 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Container, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import { NextPage } from "next";
-import { Pagination } from "@material-ui/lab";
 import { useRouter } from "next/router";
 import VisuallyHidden from "@reach/visually-hidden";
 
 import { IListResponse, IProduct } from "@lucy/interfaces";
-import { ProductList } from "../components";
-import { ProductService } from "../services";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    pagination: {
-      display: "flex",
-      justifyContent: "center",
-      margin: theme.spacing(0, "auto", 4),
-    },
-  }),
-);
+import { ProductList } from "../../components";
+import { ProductService } from "../../services";
 
 const ProductListPage: NextPage = () => {
   /**
@@ -34,9 +23,17 @@ const ProductListPage: NextPage = () => {
    * Side Effects
    */
 
+  // Redirect from `/products` to `products?page=1`
+  useEffect(() => {
+    if (router.asPath === "/products") {
+      router.push("/products?page=1");
+    }
+  }, [router]);
+
   // Parse `page` property of the query
   useEffect(() => {
     if (router.query.page === undefined) return;
+
     const pageNumber = parseInt(`${router.query.page}`, 10);
     if (isNaN(pageNumber)) router.push("/products?page=1");
     else setPage(pageNumber);
@@ -45,6 +42,7 @@ const ProductListPage: NextPage = () => {
   // Validate page number
   useEffect(() => {
     if (response === null) return;
+
     if (page > response.pageCount) {
       router.push(`/products?page=${response.pageCount}`);
     }
@@ -64,8 +62,8 @@ const ProductListPage: NextPage = () => {
    */
 
   const handleChangePage = useCallback(
-    (event: ChangeEvent<unknown>, value: number) => {
-      router.push(`/products?page=${value}`);
+    (pageNumber: number) => {
+      router.push(`/products?page=${pageNumber}`);
     },
     [router],
   );
@@ -73,8 +71,6 @@ const ProductListPage: NextPage = () => {
   /**
    * Render
    */
-
-  const styles = useStyles();
 
   const products = useMemo<IProduct[]>(() => {
     return response ? response.data : [];
@@ -89,12 +85,12 @@ const ProductListPage: NextPage = () => {
       <VisuallyHidden>
         <h1>Products</h1>
       </VisuallyHidden>
-      <ProductList loading={loading} products={products} />
-      <Pagination
-        className={styles.pagination}
-        count={pageCount}
-        onChange={handleChangePage}
+      <ProductList
+        loading={loading}
         page={page}
+        pageCount={pageCount}
+        products={products}
+        onChangePage={handleChangePage}
       />
     </Container>
   );

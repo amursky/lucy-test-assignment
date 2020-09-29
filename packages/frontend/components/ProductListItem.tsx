@@ -38,7 +38,7 @@ export const ProductListItem: FC<ProductListItemProps> = memo(({ product }) => {
         <CardActionArea>
           <CardMedia className={styles.cardMedia} image={product.image} title={product.name} />
           <CardContent>
-            <Typography variant="h5" component="h3">
+            <Typography variant="body1" component="p">
               {product.name}
             </Typography>
           </CardContent>
