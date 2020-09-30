@@ -9,6 +9,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
     "@lucy/interfaces": "^1.0.0",
     "@reach/visually-hidden": "^0.11.1",
     "antd": "^4.6.6",

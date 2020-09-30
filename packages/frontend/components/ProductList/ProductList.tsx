@@ -1,4 +1,5 @@
 import { FC, Fragment, useCallback, useRef } from "react";
+import { useRouter } from "next/router";
 
 import { Row, Col, Pagination } from "antd";
 import { IProduct } from "@lucy/interfaces";
@@ -15,11 +16,18 @@ export type ProductListProps = {
 };
 
 export const ProductList: FC<ProductListProps> = ({ page, products, pageCount, onChangePage }) => {
-  const renderProductListItem = useCallback(
+  const router = useRouter();
+
+  const goToProductDetails = useCallback(
+    (product: IProduct) => router.push(`/products/${product.id}`),
+    [router],
+  );
+
+  const renderItem = useCallback(
     (product: IProduct) => (
       <Col span={6} key={product.id}>
         <AnimationVariantsProvider>
-          <ProductListItem product={product} />
+          <ProductListItem product={product} onClick={goToProductDetails} />
         </AnimationVariantsProvider>
       </Col>
     ),
@@ -29,7 +37,7 @@ export const ProductList: FC<ProductListProps> = ({ page, products, pageCount, o
   return (
     <Fragment>
       <AnimationProvider>
-        <Row gutter={[16, 16]}>{products.map(renderProductListItem)}</Row>
+        <Row gutter={[16, 16]}>{products.map(renderItem)}</Row>
       </AnimationProvider>
       <Pagination
         className={styles.pagination}
@@ -54,14 +62,14 @@ const AnimationVariantsProvider: FC = ({ children }) => {
     enter: {
       opacity: 1,
       transition: {
-        duration: 1,
+        duration: 0.4,
         ease: easing,
       },
     },
     exit: {
       opacity: 0,
       transition: {
-        duration: 1,
+        duration: 0.4,
         ease: easing,
       },
     },

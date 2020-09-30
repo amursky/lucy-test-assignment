@@ -1,12 +1,12 @@
-import { Fragment, useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { IProduct } from "@lucy/interfaces";
-import VisuallyHidden from "@reach/visually-hidden";
 
-import { Container, ProductList } from "../../components";
+import { Container, Header, ProductList } from "../../components";
 import { ProductService } from "../../services";
+import { Typography } from "antd";
 
 type ProductListPageQuery = {
   page: string;
@@ -21,22 +21,20 @@ type ProductListPageProps = {
 const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, products }) => {
   const router = useRouter();
 
-  useEffect(() => {
-    setTimeout(() => scrollTo({ top: 0, behavior: "smooth" }), 0);
-  }, [page]);
-
   const handleChangePage = useCallback(
     (pageNumber: number) => {
-      router.push(`/products?page=${pageNumber}`);
+      router
+        .push(`/products?page=${pageNumber}`)
+        .then(() => scrollTo({ top: 0, behavior: "smooth" }));
     },
     [router],
   );
 
   return (
     <Container>
-      <VisuallyHidden>
-        <h1>Products</h1>
-      </VisuallyHidden>
+      <Header>
+        <Typography.Title level={1}>Products</Typography.Title>
+      </Header>
       <ProductList
         page={page}
         pageCount={pageCount}
@@ -56,7 +54,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // Page is not a number, redirect
   if (isNaN(parsedPage)) {
-    res.writeHead(303, { Location: "/products?page=1" });
+    res.writeHead(301, { Location: "/products?page=1" });
     res.end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }
@@ -67,7 +65,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // Page is greather then page count, redirect to the last page
   if (parsedPage > pageCount) {
-    res.writeHead(303, { Location: `/products?page=${pageCount}` });
+    res.writeHead(301, { Location: `/products?page=${pageCount}` });
     res.end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }
