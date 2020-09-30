@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 
 import { Col, Row, Typography, Image, Button } from "antd";
 import { IProduct, ProductSize } from "@lucy/interfaces";

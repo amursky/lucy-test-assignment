@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
@@ -23,17 +23,19 @@ const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, prod
 
   const handleChangePage = useCallback(
     (pageNumber: number) => {
-      router
-        .push(`/products?page=${pageNumber}`)
-        .then(() => scrollTo({ top: 0, behavior: "smooth" }));
+      router.push(`/products?page=${pageNumber}`);
     },
     [router],
   );
 
+  useEffect(() => {
+    setTimeout(() => scrollTo({ top: 0, behavior: "smooth" }), 0);
+  }, [page]);
+
   return (
     <Container>
       <Header>
-        <Typography.Title level={1}>Dresses</Typography.Title>
+        <Typography.Title level={1}>Dresses by «Lucy in the Sky»</Typography.Title>
       </Header>
       <ProductList
         page={page}
