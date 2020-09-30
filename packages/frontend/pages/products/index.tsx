@@ -33,7 +33,7 @@ const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, prod
   return (
     <Container>
       <Header>
-        <Typography.Title level={1}>Products</Typography.Title>
+        <Typography.Title level={1}>Dresses</Typography.Title>
       </Header>
       <ProductList
         page={page}
@@ -54,8 +54,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // Page is not a number, redirect
   if (isNaN(parsedPage)) {
-    res.writeHead(301, { Location: "/products?page=1" });
-    res.end();
+    res.writeHead(301, "Invalid page number", { Location: "/products?page=1" }).end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }
 
@@ -63,9 +62,9 @@ export const getServerSideProps: GetServerSideProps<
   const productService = new ProductService();
   const { data: products, page, pageCount } = await productService.getProducts(parsedPage);
 
-  // Page is greather then page count, redirect to the last page
+  // Page is greather than page count, redirect to the last page
   if (parsedPage > pageCount) {
-    res.writeHead(301, { Location: `/products?page=${pageCount}` });
+    res.writeHead(301, "Invalid page number", { Location: `/products?page=${pageCount}` });
     res.end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }

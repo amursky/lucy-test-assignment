@@ -25,7 +25,7 @@ export const ProductList: FC<ProductListProps> = ({ page, products, pageCount, o
 
   const renderItem = useCallback(
     (product: IProduct) => (
-      <Col span={6} key={product.id}>
+      <Col span={8} key={product.id}>
         <AnimationVariantsProvider>
           <ProductListItem product={product} onClick={goToProductDetails} />
         </AnimationVariantsProvider>

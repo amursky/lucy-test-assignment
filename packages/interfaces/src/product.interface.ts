@@ -1,10 +1,14 @@
+export type ProductSize = "Small" | "Medium" | "Large";
+
 export interface IProduct {
+  description: string;
   id: number;
+  image: string;
   model: string;
   name: string;
-  image: string;
   price: string;
-  special: string;
-  description: string;
+  priceInCents: number;
   sizes: string[];
+  special: string;
+  specialInCents: number;
 }
