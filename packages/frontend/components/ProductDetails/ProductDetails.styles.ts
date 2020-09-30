@@ -30,5 +30,6 @@ export const actions = style({
 
 export const actionsRow = style({
   display: "flex",
+  alignItems: "center",
   margin: margin(0, 0, 16, 0),
 });

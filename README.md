@@ -1,4 +1,4 @@
-# «Lucy in the Sky» test assignment
+# Test assignment for «Lucy in the Sky»
 
 ## Setup
 
