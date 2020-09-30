@@ -51,7 +51,7 @@ export const ProductList: FC<ProductListProps> = ({ page, pageCount, products, o
   return (
     <Grid container spacing={3} className={styles.rootGrid}>
       <Grid item xs={12} component={AnimationProvider}>
-        <Grid container spacing={3} xs={12}>
+        <Grid container spacing={3}>
           {products.map(renderProductListItem)}
         </Grid>
       </Grid>

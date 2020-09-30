@@ -1,7 +1,10 @@
 {
-  "private": true,
   "name": "mock-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

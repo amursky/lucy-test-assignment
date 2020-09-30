@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -9,16 +8,13 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Mock Server')
-    .setDescription('The Mock Server API')
+    .setDescription('The Mock Server API description')
     .build();
-
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
-
   await app.listen(4000);
 }
-
 bootstrap();
