@@ -1,23 +1,20 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
 import { AnimatePresence } from "framer-motion";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-import "../styles/fonts.css";
-import { loadFonts } from "../styles/fonts";
+import "antd/dist/antd.min.css";
 
-export default function Application({ Component, pageProps, router }: AppProps) {
-  useEffect(loadFonts, []);
+const Application = ({ Component, pageProps, router }: AppProps) => (
+  <Fragment>
+    <Head>
+      <title>Lucy in the Sky</title>
+    </Head>
+    <AnimatePresence exitBeforeEnter>
+      <Component {...pageProps} key={router.route} />
+    </AnimatePresence>
+  </Fragment>
+);
 
-  return (
-    <Fragment>
-      <Head>
-        <title>Lucy in the Sky</title>
-      </Head>
-      <AnimatePresence exitBeforeEnter>
-        <Component {...pageProps} key={router.route} />
-      </AnimatePresence>
-    </Fragment>
-  );
-}
+export default Application;

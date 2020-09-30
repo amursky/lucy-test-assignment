@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+
 import VisuallyHidden from "@reach/visually-hidden";
 
 const ProductDetailsPage: NextPage = () => {

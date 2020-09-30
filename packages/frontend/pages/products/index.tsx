@@ -1,12 +1,11 @@
-import { useCallback, useEffect } from "react";
-
-import { Container } from "@material-ui/core";
+import { Fragment, useCallback, useEffect } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import VisuallyHidden from "@reach/visually-hidden";
 
 import { IProduct } from "@lucy/interfaces";
-import { ProductList } from "../../components";
+import VisuallyHidden from "@reach/visually-hidden";
+
+import { Container, ProductList } from "../../components";
 import { ProductService } from "../../services";
 
 type ProductListPageQuery = {
@@ -57,7 +56,8 @@ export const getServerSideProps: GetServerSideProps<
 
   // Page is not a number, redirect
   if (isNaN(parsedPage)) {
-    res.writeHead(303, { Location: "/products?page=1" }).end();
+    res.writeHead(303, { Location: "/products?page=1" });
+    res.end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }
 
@@ -67,7 +67,8 @@ export const getServerSideProps: GetServerSideProps<
 
   // Page is greather then page count, redirect to the last page
   if (parsedPage > pageCount) {
-    res.writeHead(303, { Location: `/products?page=${pageCount}` }).end();
+    res.writeHead(303, { Location: `/products?page=${pageCount}` });
+    res.end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }
 
