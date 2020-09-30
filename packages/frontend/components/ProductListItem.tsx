@@ -1,12 +1,10 @@
-import { FC, memo } from "react";
-
+import { FC } from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   createStyles,
-  Grid,
   makeStyles,
   Theme,
   Typography,
@@ -29,26 +27,24 @@ export type ProductListItemProps = {
   product: IProduct;
 };
 
-export const ProductListItem: FC<ProductListItemProps> = memo(({ product }) => {
+export const ProductListItem: FC<ProductListItemProps> = ({ product }) => {
   const styles = useStyles();
 
   return (
-    <Grid item xs={4}>
-      <Card className={styles.card}>
-        <CardActionArea>
-          <CardMedia
-            alt={product.name}
-            className={styles.cardMedia}
-            component="img"
-            image={product.image}
-          />
-          <CardContent>
-            <Typography variant="body1" component="p">
-              {product.name}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
+    <Card className={styles.card}>
+      <CardActionArea>
+        <CardMedia
+          alt={product.name}
+          className={styles.cardMedia}
+          component="img"
+          image={product.image}
+        />
+        <CardContent>
+          <Typography variant="body1" component="p">
+            {product.name}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
-});
+};

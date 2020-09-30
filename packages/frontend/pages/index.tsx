@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import { NextPage } from "next";
 import { UrlObject } from "url";
-import Link from "next/link";
+// import Link from "next/link";
 
 const HomePage: NextPage = () => (
   <Fragment>
-    <Link href={PRODUCTS_PAGE_ROUTE}>
-      <a>Products</a>
-    </Link>
+    {/* <Link href={PRODUCTS_PAGE_ROUTE}> */}
+    <a href="/products?page=1">Products</a>
+    {/* </Link> */}
   </Fragment>
 );
 

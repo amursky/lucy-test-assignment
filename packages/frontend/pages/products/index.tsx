@@ -1,65 +1,30 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Container, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
-import { NextPage } from "next";
+import { useCallback, useEffect } from "react";
+
+import { Container } from "@material-ui/core";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import VisuallyHidden from "@reach/visually-hidden";
 
-import { IListResponse, IProduct } from "@lucy/interfaces";
+import { IProduct } from "@lucy/interfaces";
 import { ProductList } from "../../components";
 import { ProductService } from "../../services";
 
-const ProductListPage: NextPage = () => {
-  /**
-   * State
-   */
+type ProductListPageQuery = {
+  page: string;
+};
 
+type ProductListPageProps = {
+  page: number;
+  pageCount: number;
+  products: IProduct[];
+};
+
+const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, products }) => {
   const router = useRouter();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(1);
-  const [response, setResponse] = useState<IListResponse<IProduct[]> | null>(null);
-
-  /**
-   * Side Effects
-   */
-
-  // Redirect from `/products` to `products?page=1`
   useEffect(() => {
-    if (router.asPath === "/products") {
-      router.push("/products?page=1");
-    }
-  }, [router]);
-
-  // Parse `page` property of the query
-  useEffect(() => {
-    if (router.query.page === undefined) return;
-
-    const pageNumber = parseInt(`${router.query.page}`, 10);
-    if (isNaN(pageNumber)) router.push("/products?page=1");
-    else setPage(pageNumber);
-  }, [router.query.page]);
-
-  // Validate page number
-  useEffect(() => {
-    if (response === null) return;
-
-    if (page > response.pageCount) {
-      router.push(`/products?page=${response.pageCount}`);
-    }
-  }, [page, response]);
-
-  // Fetch product list on page number change
-  useEffect(() => {
-    setLoading(true);
-    new ProductService()
-      .getProducts(page)
-      .then(setResponse)
-      .finally(() => setLoading(false));
+    setTimeout(() => scrollTo({ top: 0, behavior: "smooth" }), 0);
   }, [page]);
-
-  /**
-   * Event Handlers
-   */
 
   const handleChangePage = useCallback(
     (pageNumber: number) => {
@@ -68,25 +33,12 @@ const ProductListPage: NextPage = () => {
     [router],
   );
 
-  /**
-   * Render
-   */
-
-  const products = useMemo<IProduct[]>(() => {
-    return response ? response.data : [];
-  }, [response?.data]);
-
-  const pageCount = useMemo<number>(() => {
-    return response ? response.pageCount : 1;
-  }, [response?.pageCount]);
-
   return (
     <Container>
       <VisuallyHidden>
         <h1>Products</h1>
       </VisuallyHidden>
       <ProductList
-        loading={loading}
         page={page}
         pageCount={pageCount}
         products={products}
@@ -94,6 +46,32 @@ const ProductListPage: NextPage = () => {
       />
     </Container>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<
+  ProductListPageProps,
+  ProductListPageQuery
+> = async ({ query, res }) => {
+  // Parse page number
+  const parsedPage = parseInt(`${query.page}`, 10);
+
+  // Page is not a number, redirect
+  if (isNaN(parsedPage)) {
+    res.writeHead(303, { Location: "/products?page=1" }).end();
+    return { props: { page: 1, pageCount: 1, products: [] } };
+  }
+
+  // Fetch products
+  const productService = new ProductService();
+  const { data: products, page, pageCount } = await productService.getProducts(parsedPage);
+
+  // Page is greather then page count, redirect to the last page
+  if (parsedPage > pageCount) {
+    res.writeHead(303, { Location: `/products?page=${pageCount}` }).end();
+    return { props: { page: 1, pageCount: 1, products: [] } };
+  }
+
+  return { props: { page, pageCount, products } };
 };
 
 export default ProductListPage;
