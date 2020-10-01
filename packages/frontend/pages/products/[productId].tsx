@@ -18,7 +18,7 @@ type ProductDetailsPageProps = {
 const ProductDetailsPage: NextPage<ProductDetailsPageProps> = ({ product }) => (
   <Fragment>
     <PageHeader>
-      <GoBackButton href="/products" text="Back to all dresses" />
+      <GoBackButton href="/products?page=1" text="Back to all dresses" />
     </PageHeader>
     <ProductDetails product={product} />
   </Fragment>
@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // Invalid product id, redirect
   if (isNaN(productId)) {
-    res.writeHead(301, "Invalid product id", { Location: "/products" }).end();
+    res.writeHead(301, "Invalid product id", { Location: "/products?page=1" }).end();
     return { props: { product: null } };
   }
 
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // Product not found, refirect
   if (product.id === undefined) {
-    res.writeHead(301, "Product not found", { Location: "/products" }).end();
+    res.writeHead(301, "Product not found", { Location: "/products?page=1" }).end();
     return { props: { product: null } };
   }
 

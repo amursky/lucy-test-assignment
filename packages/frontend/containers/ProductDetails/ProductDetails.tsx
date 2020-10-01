@@ -14,7 +14,7 @@ export type ProductDetailsProps = {
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
   const [size, setSize] = useState<ProductSize>("Medium");
-  const { dispatch } = useContext(BagContext);
+  const { state: bag, dispatch } = useContext(BagContext);
 
   const addProductToBag = useCallback(() => {
     dispatch({ type: "BAG.ADD_PRODUCT", item: { product, size } });
@@ -23,6 +23,10 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
   const descriptionParagraphs = useMemo(() => {
     return parseProductDescription(product.description);
   }, [product.description]);
+
+  const disableAddToCardButton = useMemo(() => {
+    return bag.items.findIndex(item => item.product.id === product.id) !== -1;
+  }, [product, bag.items]);
 
   return (
     <Row className={styles.root}>
@@ -42,7 +46,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                 <SizePicker size={size} onChange={setSize} />
               </div>
               <div className={styles.actionsRow}>
-                <Button type="primary" onClick={addProductToBag}>
+                <Button type="primary" onClick={addProductToBag} disabled={disableAddToCardButton}>
                   Add to cart
                 </Button>
                 <Price className={styles.price} price={product.price} special={product.special} />

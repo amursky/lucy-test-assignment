@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // Page is not a number, redirect
   if (isNaN(parsedPage)) {
-    res.writeHead(301, "Invalid page number", { Location: "/products" }).end();
+    res.writeHead(301, "Invalid page number", { Location: "/products?page=1" }).end();
     return { props: { page: 1, pageCount: 1, products: [] } };
   }
 
