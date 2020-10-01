@@ -12,8 +12,6 @@ export const root = style({
   justifyContent: "flex-end",
 });
 
-export const children = style({});
-
-export const cart = style({
-  margin: margin(0, 0, 0, "auto")
+export const children = style({
+  margin: margin(0, "auto", 0, 0),
 });

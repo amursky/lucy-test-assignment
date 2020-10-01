@@ -1,4 +1,4 @@
-export * from "./Cart";
+export * from "./BagButton";
 export * from "./Container";
 export * from "./GoBackButton";
 export * from "./Header";

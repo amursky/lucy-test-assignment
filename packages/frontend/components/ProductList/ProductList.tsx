@@ -1,5 +1,4 @@
-import { FC, Fragment, useCallback, useRef } from "react";
-import { useRouter } from "next/router";
+import { FC, Fragment, memo, useRef } from "react";
 
 import { Row, Col, Pagination } from "antd";
 import { IProduct } from "@lucy/interfaces";
@@ -7,6 +6,7 @@ import { motion, Variants } from "framer-motion";
 
 import { ProductListItem } from "../ProductListItem";
 import * as styles from "./ProductList.styles";
+import Link from "next/link";
 
 export type ProductListProps = {
   page: number;
@@ -15,29 +15,23 @@ export type ProductListProps = {
   onChangePage: (page: number) => unknown;
 };
 
-export const ProductList: FC<ProductListProps> = ({ page, products, pageCount, onChangePage }) => {
-  const router = useRouter();
-
-  const goToProductDetails = useCallback(
-    (product: IProduct) => router.push(`/products/${product.id}`),
-    [router],
-  );
-
-  const renderItem = useCallback(
-    (product: IProduct) => (
-      <Col span={8} key={product.id}>
-        <AnimationVariantsProvider>
-          <ProductListItem product={product} onClick={goToProductDetails} />
-        </AnimationVariantsProvider>
-      </Col>
-    ),
-    [products],
-  );
-
-  return (
+export const ProductList: FC<ProductListProps> = memo(
+  ({ page, products, pageCount, onChangePage }) => (
     <Fragment>
       <AnimationProvider>
-        <Row gutter={[16, 16]}>{products.map(renderItem)}</Row>
+        <Row gutter={[16, 16]}>
+          {products.map((product: IProduct) => (
+            <Col span={8} key={product.id}>
+              <Link href={`/products/${product.id}`}>
+                <a>
+                  <AnimationVariantsProvider>
+                    <ProductListItem product={product} />
+                  </AnimationVariantsProvider>
+                </a>
+              </Link>
+            </Col>
+          ))}
+        </Row>
       </AnimationProvider>
       <Pagination
         className={styles.pagination}
@@ -47,8 +41,8 @@ export const ProductList: FC<ProductListProps> = ({ page, products, pageCount, o
         onChange={onChangePage}
       />
     </Fragment>
-  );
-};
+  ),
+);
 
 const AnimationProvider: FC = ({ children }) => (
   <motion.div initial="exit" animate="enter" exit="exit">
@@ -58,21 +52,10 @@ const AnimationProvider: FC = ({ children }) => (
 
 const AnimationVariantsProvider: FC = ({ children }) => {
   const { current: easing } = useRef<number[]>([0.175, 0.85, 0.42, 0.96]);
+
   const { current: variants } = useRef<Variants>({
-    enter: {
-      opacity: 1,
-      transition: {
-        duration: 0.4,
-        ease: easing,
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.4,
-        ease: easing,
-      },
-    },
+    enter: { opacity: 1, transition: { duration: 1, ease: easing } },
+    exit: { opacity: 0, transition: { duration: 1, ease: easing } },
   });
 
   return <motion.div variants={variants}>{children}</motion.div>;

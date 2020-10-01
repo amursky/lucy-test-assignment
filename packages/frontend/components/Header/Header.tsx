@@ -1,13 +1,11 @@
 import { FC } from "react";
 
-import { Cart } from "../Cart";
+import { BagButton } from "../BagButton";
 import * as styles from "./Header.styles";
 
-export const Header: FC = ({ children }) => {
-  return (
-    <div className={styles.root}>
-      <div className={styles.children}>{children}</div>
-      <Cart className={styles.cart} itemCount={3} />
-    </div>
-  );
-};
+export const Header: FC = ({ children }) => (
+  <div className={styles.root}>
+    <div className={styles.children}>{children}</div>
+    <BagButton count={1} />
+  </div>
+);

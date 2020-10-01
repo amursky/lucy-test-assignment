@@ -1,4 +1,4 @@
-import { em, margin } from "csx";
+import { em, margin, px } from "csx";
 import { style } from "typestyle";
 
 export const text = style({
@@ -8,5 +8,5 @@ export const text = style({
 });
 
 export const icon = style({
-  margin: margin(0, 8, 0, 0),
+  margin: margin(0, 0, 0, 8),
 });

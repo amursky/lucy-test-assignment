@@ -1,12 +1,11 @@
-import { useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect } from "react";
 import { GetServerSideProps, NextPage } from "next";
+import { IProduct } from "@lucy/interfaces";
+import { Typography } from "antd";
 import { useRouter } from "next/router";
 
-import { IProduct } from "@lucy/interfaces";
-
-import { Container, Header, ProductList } from "../../components";
+import { Header, ProductList } from "../../components";
 import { ProductService } from "../../services";
-import { Typography } from "antd";
 
 type ProductListPageQuery = {
   page: string;
@@ -33,7 +32,7 @@ const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, prod
   }, [page]);
 
   return (
-    <Container>
+    <Fragment>
       <Header>
         <Typography.Title level={1}>Dresses by «Lucy in the Sky»</Typography.Title>
       </Header>
@@ -43,7 +42,7 @@ const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, prod
         products={products}
         onChangePage={handleChangePage}
       />
-    </Container>
+    </Fragment>
   );
 };
 

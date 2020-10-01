@@ -1,11 +1,9 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useCallback } from "react";
-import { useRouter } from "next/router";
-
 import { IProduct } from "@lucy/interfaces";
 
-import { Container, GoBackButton, Header, ProductDetails } from "../../components";
+import { GoBackButton, Header, ProductDetails } from "../../components";
 import { ProductService } from "../../services";
+import { Fragment } from "react";
 
 type ProductDetailsPageParams = {
   productId: string;
@@ -15,22 +13,14 @@ type ProductDetailsPageProps = {
   product: IProduct;
 };
 
-const ProductDetailsPage: NextPage<ProductDetailsPageProps> = ({ product }) => {
-  const router = useRouter();
-
-  const goBack = useCallback(() => {
-    router.back();
-  }, [router]);
-
-  return (
-    <Container>
-      <Header>
-        <GoBackButton href="/products?page=1" text="Back to all dresses" />
-      </Header>
-      <ProductDetails product={product} />
-    </Container>
-  );
-};
+const ProductDetailsPage: NextPage<ProductDetailsPageProps> = ({ product }) => (
+  <Fragment>
+    <Header>
+      <GoBackButton href="/products?page=1" text="Back to all dresses" />
+    </Header>
+    <ProductDetails product={product} />
+  </Fragment>
+);
 
 export const getServerSideProps: GetServerSideProps<
   ProductDetailsPageProps,
