@@ -1,9 +1,8 @@
-import { IProduct } from "@lucy/interfaces";
+import { IProduct, ProductSize } from "@lucy/interfaces";
 
 export type BagItem = {
   product: IProduct;
-  quantity: number;
-  totalPrice: number;
+  size: ProductSize;
 };
 
 export type BagState = {
@@ -21,18 +20,8 @@ export type BagRemoveProductAction = {
   item: BagItem;
 };
 
-export type BagChangeQuantityAction = {
-  type: "BAG.CHANGE_QUANTITY";
-  item: BagItem;
-  quantity: number;
-};
-
 export type BagResetAction = {
   type: "BAG.RESET";
 };
 
-export type BagAction =
-  | BagAddProductAction
-  | BagRemoveProductAction
-  | BagChangeQuantityAction
-  | BagResetAction;
+export type BagAction = BagAddProductAction | BagRemoveProductAction | BagResetAction;

@@ -8,7 +8,7 @@ import { PageHeader, ShoppingBag } from "../containers";
 const HomePage: NextPage = () => (
   <Fragment>
     <PageHeader>
-      <GoBackButton href="/products?page=1" text="Back to shopping" />
+      <GoBackButton href="/products" text="Back to shopping" />
     </PageHeader>
     <Typography.Title level={1}>Shopping bag</Typography.Title>
     <ShoppingBag />

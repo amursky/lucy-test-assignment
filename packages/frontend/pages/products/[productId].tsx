@@ -18,7 +18,7 @@ type ProductDetailsPageProps = {
 const ProductDetailsPage: NextPage<ProductDetailsPageProps> = ({ product }) => (
   <Fragment>
     <PageHeader>
-      <GoBackButton href="/products?page=1" text="Back to all dresses" />
+      <GoBackButton href="/products" text="Back to all dresses" />
     </PageHeader>
     <ProductDetails product={product} />
   </Fragment>

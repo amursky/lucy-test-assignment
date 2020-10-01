@@ -1,4 +1,4 @@
-import { addProduct, changeQuantity, removeProduct } from "./helpers";
+import { addProduct, removeProduct } from "./helpers";
 import { BagAction, BagState } from "./types";
 
 export const initialState: BagState = {
@@ -13,9 +13,6 @@ export const reducer = (state: BagState, action: BagAction): BagState => {
 
     case "BAG.REMOVE_PRODUCT":
       return removeProduct(state, action);
-
-    case "BAG.CHANGE_QUANTITY":
-      return changeQuantity(state, action);
 
     case "BAG.RESET":
       return initialState;

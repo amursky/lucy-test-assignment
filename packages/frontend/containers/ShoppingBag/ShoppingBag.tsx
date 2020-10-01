@@ -1,20 +1,15 @@
-import { FC, useCallback, useContext, useRef } from "react";
+import { FC, useCallback, useContext, useMemo, useRef } from "react";
+import Link from "next/link";
 
-import { Button, InputNumber, Space, Table, Typography } from "antd";
+import { Button, Col, Row, Table, Typography } from "antd";
 import { IProduct } from "@lucy/interfaces";
 
 import { BagContext, BagItem } from "../../stores";
 import { centsToDollars } from "../../utils";
+import * as styles from "./ShoppingBag.styles";
 
 export const ShoppingBag: FC = () => {
   const { state: bag, dispatch } = useContext(BagContext);
-
-  const changeQuantity = useCallback(
-    (item: BagItem, quantity: number) => {
-      dispatch({ type: "BAG.CHANGE_QUANTITY", item, quantity });
-    },
-    [dispatch],
-  );
 
   const deleteItem = useCallback(
     (item: BagItem) => dispatch({ type: "BAG.REMOVE_PRODUCT", item }),
@@ -24,47 +19,68 @@ export const ShoppingBag: FC = () => {
   const { current: columns } = useRef([
     {
       title: "Product name",
-      dataIndex: "product",
       key: "productName",
+      dataIndex: "product",
       render: (product: IProduct) => (
-        <Typography.Link href={`/products/${product.id}`}>{product.name}</Typography.Link>
+        <Link href={`/products/${product.id}`}>
+          <Typography.Link>{product.name}</Typography.Link>
+        </Link>
       ),
     },
     {
-      title: "Quantity",
-      key: "quantity",
-      render: (item: BagItem) => (
-        <Space size="middle">
-          <InputNumber
-            min={1}
-            defaultValue={item.quantity}
-            onChange={value => changeQuantity(item, parseInt(`${value}`, 10))}
-          />
-        </Space>
-      ),
+      title: "Size",
+      key: "size",
+      render: (item: BagItem) => <Typography.Text>{item.size}</Typography.Text>,
     },
     {
-      dataIndex: "totalPrice",
-      key: "totalPrice",
       title: "Price",
-      render: (price: number) => (
-        <Space size="middle">
-          <Typography.Text>{centsToDollars(price)}</Typography.Text>
-        </Space>
-      ),
+      key: "totalPrice",
+      dataIndex: "product",
+      render: (product: IProduct) => <Typography.Text>{product.special}</Typography.Text>,
     },
     {
-      title: "Actions",
-      key: "action",
+      title: "",
+      key: "actions",
       render: (item: BagItem) => (
-        <Space size="middle">
-          <Button type="link" onClick={() => deleteItem(item)}>
-            Delete
-          </Button>
-        </Space>
+        <Typography.Link onClick={() => deleteItem(item)}>Delete</Typography.Link>
       ),
     },
   ]);
 
-  return <Table columns={columns} dataSource={bag.items} />;
+  const totalPrice = useMemo(() => {
+    return bag.items.reduce((price, { product }) => price + product.specialInCents, 0);
+  }, [bag.items]);
+
+  return (
+    <Row>
+      <Col span={24}>
+        <Table className={styles.table} columns={columns} dataSource={bag.items} />
+      </Col>
+      <Col span={20} />
+      <Col span={4}>
+        <Row className={styles.totalPriceRow}>
+          <Typography.Text strong>Total: {centsToDollars(totalPrice)}</Typography.Text>
+        </Row>
+        <Row className={styles.buyRow}>
+          <Button type="primary" className={styles.buyButton} disabled={totalPrice === 0}>
+            Checkout
+          </Button>
+        </Row>
+      </Col>
+    </Row>
+  );
 };
+
+// [POST] /checkout/placeOrder
+
+// Request body:
+// {
+//   products: [
+//     { id: 123, size: "Small" },
+//     { id: 456, size: "Medium" },
+//     { id: 789, size: "Large" },
+//   ]
+// }
+
+// Response bdoy:
+// { orderId: number; }
