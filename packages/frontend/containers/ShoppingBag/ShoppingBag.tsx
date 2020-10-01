@@ -6,8 +6,8 @@ import { IProduct } from "@lucy/interfaces";
 
 import { BagContext, BagItem } from "../../stores";
 import { centsToDollars } from "../../utils";
-import * as styles from "./ShoppingBag.styles";
 import { CheckoutService } from "../../services";
+import * as styles from "./ShoppingBag.styles";
 
 export const ShoppingBag: FC = () => {
   const { state: bag, dispatch } = useContext(BagContext);
@@ -96,17 +96,3 @@ export const ShoppingBag: FC = () => {
     </Row>
   );
 };
-
-// [POST] /checkout/placeOrder
-
-// Request body:
-// {
-//   products: [
-//     { id: 123, size: "Small" },
-//     { id: 456, size: "Medium" },
-//     { id: 789, size: "Large" },
-//   ]
-// }
-
-// Response bdoy:
-// { orderId: number; }
