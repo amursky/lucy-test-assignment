@@ -4,7 +4,8 @@ import { IProduct } from "@lucy/interfaces";
 import { Typography } from "antd";
 import { useRouter } from "next/router";
 
-import { Header, ProductList } from "../../components";
+import { PageHeader } from "../../containers";
+import { ProductList } from "../../components";
 import { ProductService } from "../../services";
 
 type ProductListPageQuery = {
@@ -33,9 +34,8 @@ const ProductListPage: NextPage<ProductListPageProps> = ({ page, pageCount, prod
 
   return (
     <Fragment>
-      <Header>
-        <Typography.Title level={1}>Dresses by «Lucy in the Sky»</Typography.Title>
-      </Header>
+      <PageHeader />
+      <Typography.Title level={1}>Dresses by «Lucy in the Sky»</Typography.Title>
       <ProductList
         page={page}
         pageCount={pageCount}

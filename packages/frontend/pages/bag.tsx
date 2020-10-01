@@ -2,13 +2,14 @@ import { Fragment } from "react";
 import { NextPage } from "next";
 import { Typography } from "antd";
 
-import { GoBackButton, Header } from "../components";
+import { GoBackButton } from "../components";
+import { PageHeader } from "../containers";
 
 const HomePage: NextPage = () => (
   <Fragment>
-    <Header>
+    <PageHeader>
       <GoBackButton href="/products?page=1" text="Back to shopping" />
-    </Header>
+    </PageHeader>
     <Typography.Title level={1}>Shopping bag</Typography.Title>
     Content...
   </Fragment>

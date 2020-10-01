@@ -5,6 +5,7 @@ import { AppProps } from "next/app";
 import { Layout } from "antd";
 import Head from "next/head";
 
+import { BagProvider } from "../stores";
 import { Container } from "../components";
 
 const Application = ({ Component, pageProps, router }: AppProps) => (
@@ -14,7 +15,9 @@ const Application = ({ Component, pageProps, router }: AppProps) => (
     </Head>
     <AnimatePresence exitBeforeEnter>
       <Container>
-        <Component {...pageProps} key={router.route} />
+        <BagProvider>
+          <Component {...pageProps} key={router.route} />
+        </BagProvider>
       </Container>
     </AnimatePresence>
   </Layout>

@@ -1,8 +1,9 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useCallback, useContext, useMemo, useState } from "react";
 
 import { Col, Row, Typography, Image, Button } from "antd";
 import { IProduct, ProductSize } from "@lucy/interfaces";
 
+import { BagContext } from "../../stores";
 import { parseProductDescription } from "../../utils";
 import { Price, SizePicker } from "../../components";
 import * as styles from "./ProductDetails.styles";
@@ -13,6 +14,11 @@ export type ProductDetailsProps = {
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
   const [size, setSize] = useState<ProductSize>("Medium");
+  const { dispatch } = useContext(BagContext);
+
+  const addProductToBag = useCallback(() => {
+    dispatch({ type: "BAG.ADD_PRODUCT", product });
+  }, [product]);
 
   const descriptionParagraphs = useMemo(() => {
     return parseProductDescription(product.description);
@@ -36,7 +42,9 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                 <SizePicker size={size} onChange={setSize} />
               </div>
               <div className={styles.actionsRow}>
-                <Button type="primary">Add to cart</Button>
+                <Button type="primary" onClick={addProductToBag}>
+                  Add to cart
+                </Button>
                 <Price className={styles.price} price={product.price} special={product.special} />
               </div>
             </div>

@@ -1,9 +1,11 @@
+import { Fragment } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { IProduct } from "@lucy/interfaces";
 
-import { GoBackButton, Header, ProductDetails } from "../../components";
+import { GoBackButton } from "../../components";
+import { PageHeader } from "../../containers";
+import { ProductDetails } from "../../containers";
 import { ProductService } from "../../services";
-import { Fragment } from "react";
 
 type ProductDetailsPageParams = {
   productId: string;
@@ -15,9 +17,9 @@ type ProductDetailsPageProps = {
 
 const ProductDetailsPage: NextPage<ProductDetailsPageProps> = ({ product }) => (
   <Fragment>
-    <Header>
+    <PageHeader>
       <GoBackButton href="/products?page=1" text="Back to all dresses" />
-    </Header>
+    </PageHeader>
     <ProductDetails product={product} />
   </Fragment>
 );
