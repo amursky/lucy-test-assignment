@@ -21,8 +21,18 @@ export type BagRemoveProductAction = {
   item: BagItem;
 };
 
+export type BagChangeQuantityAction = {
+  type: "BAG.CHANGE_QUANTITY";
+  item: BagItem;
+  quantity: number;
+};
+
 export type BagResetAction = {
   type: "BAG.RESET";
 };
 
-export type BagAction = BagAddProductAction | BagRemoveProductAction | BagResetAction;
+export type BagAction =
+  | BagAddProductAction
+  | BagRemoveProductAction
+  | BagChangeQuantityAction
+  | BagResetAction;
