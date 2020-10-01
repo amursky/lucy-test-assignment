@@ -11,7 +11,7 @@ export const PageHeader: FC = ({ children }) => {
   return (
     <div className={styles.root}>
       <div className={styles.children}>{children}</div>
-      <BagButton count={bag.count} />
+      <BagButton count={bag.itemCount} />
     </div>
   );
 };

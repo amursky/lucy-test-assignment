@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { Typography } from "antd";
 
 import { GoBackButton } from "../components";
-import { PageHeader } from "../containers";
+import { PageHeader, ShoppingBag } from "../containers";
 
 const HomePage: NextPage = () => (
   <Fragment>
@@ -11,7 +11,7 @@ const HomePage: NextPage = () => (
       <GoBackButton href="/products?page=1" text="Back to shopping" />
     </PageHeader>
     <Typography.Title level={1}>Shopping bag</Typography.Title>
-    Content...
+    <ShoppingBag />
   </Fragment>
 );
 

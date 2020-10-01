@@ -1,18 +1,24 @@
 import { IProduct } from "@lucy/interfaces";
 
+export type BagItem = {
+  product: IProduct;
+  quantity: number;
+  totalPrice: number;
+};
+
 export type BagState = {
-  count: number;
-  products: IProduct[];
+  itemCount: number;
+  items: BagItem[];
 };
 
 export type BagAddProductAction = {
   type: "BAG.ADD_PRODUCT";
-  product: IProduct;
+  item: BagItem;
 };
 
 export type BagRemoveProductAction = {
   type: "BAG.REMOVE_PRODUCT";
-  product: IProduct;
+  item: BagItem;
 };
 
 export type BagResetAction = {

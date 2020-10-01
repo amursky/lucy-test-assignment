@@ -1,26 +1,22 @@
 import { BagAction, BagState } from "./types";
+import { addProduct, removeProduct } from "./helpers";
 
 export const initialState: BagState = {
-  count: 1,
-  products: [],
+  itemCount: 0,
+  items: [],
 };
 
 export const reducer = (state: BagState, action: BagAction): BagState => {
   switch (action.type) {
     case "BAG.ADD_PRODUCT":
-      return {
-        ...state,
-        count: state.count + 1,
-        products: [...state.products, action.product],
-      };
+      return addProduct(state, action);
+
     case "BAG.REMOVE_PRODUCT":
-      return {
-        ...state,
-        count: state.count + 1,
-        products: state.products.filter(({ id }) => id !== action.product.id),
-      };
+      return removeProduct(state, action);
+
     case "BAG.RESET":
       return initialState;
+
     default:
       return state;
   }

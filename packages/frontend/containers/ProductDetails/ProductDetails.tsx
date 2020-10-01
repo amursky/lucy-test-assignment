@@ -17,7 +17,10 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
   const { dispatch } = useContext(BagContext);
 
   const addProductToBag = useCallback(() => {
-    dispatch({ type: "BAG.ADD_PRODUCT", product });
+    dispatch({
+      type: "BAG.ADD_PRODUCT",
+      item: { product, quantity: 1 },
+    });
   }, [product]);
 
   const descriptionParagraphs = useMemo(() => {
